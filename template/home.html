@@ -1,0 +1,44 @@
+<html>
+    <header>
+        <h1> Inventory Tracker </h1>
+    </header>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Name </th>
+                <th> Description </th>
+                <th> Quantity </th>
+                <th> Created At </th>
+                <th> Updated At </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for row in Inventory %}
+                <td> {{ row }} </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Shipment Description </th>
+                <th> Carrier </th>
+                <th> Tracking Number </th>
+                <th> Is Expedited? </th>
+                <th> Created At </th>
+                <th> Updated At </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for row in Shipment %}
+                <td>{{ row }}</td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</html>

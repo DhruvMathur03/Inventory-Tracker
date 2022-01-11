@@ -7,7 +7,7 @@ class DB:
 
     def __init__(self, db_name):
         try:
-            self.con = sql.connect(db_name)
+            self.con = sql.connect(db_name, check_same_thread=False)
             self.cur = self.con.cursor()
             self.cur.execute("PRAGMA foreign_keys=ON;")
         except sql.Error:
@@ -41,5 +41,4 @@ class DB:
         sql_statement = f'DELETE FROM {table_name} WHERE {conditions}'
         self.cur.execute(sql_statement)
         self.con.commit()
-    
     
