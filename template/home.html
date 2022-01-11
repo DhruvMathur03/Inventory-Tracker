@@ -1,44 +1,79 @@
 <html>
+    <link rel="stylesheet" href="static/main.css">
     <header>
         <h1> Inventory Tracker </h1>
     </header>
-    <table class="styled-table">
+    <table>
         <thead>
             <tr>
-                <th> ID </th>
-                <th> Name </th>
-                <th> Description </th>
-                <th> Quantity </th>
-                <th> Created At </th>
-                <th> Updated At </th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Created At</th>
+                <th>Updated At</th>
             </tr>
         </thead>
         <tbody>
+            {% for row in Inventory %}
             <tr>
-                {% for row in Inventory %}
-                <td> {{ row }} </td>
+                {% for i in range(6) %}
+                <td>{{ row[i] }}</td>
                 {% endfor %}
+                <td><button>Edit</button></td>
+                <td><button>Delete</button></td>
             </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form method="POST">
+        <input name="Item Name" placeholder="Item Name"/>
+        <input name="Item Description" placeholder="Item Description"/>
+        <input name="Quantity" placeholder="Quantity"/>
+        <button type="submit">Create an Item</button>
+    </form>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Shipment Description</th>
+                <th>Carrier</th>
+                <th>Tracking Number</th>
+                <th>Is Expedited?</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in Shipment %}
+            <tr>
+                {% for i in range(7) %}
+                <td>{{ row[i] }}</td>
+                {% endfor %}
+                <td><button>Edit</button></td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
     <table class="styled-table">
         <thead>
             <tr>
-                <th> ID </th>
-                <th> Shipment Description </th>
-                <th> Carrier </th>
-                <th> Tracking Number </th>
-                <th> Is Expedited? </th>
-                <th> Created At </th>
-                <th> Updated At </th>
+                <th>Inventory ID</th>
+                <th>Shipment ID</th>
+                <th>Quantity</th>
+                <th>Created At</th>
+                <th>Updated At</th>
             </tr>
         </thead>
         <tbody>
+            {% for row in Shipment_Details %}
             <tr>
-                {% for row in Shipment %}
-                <td>{{ row }}</td>
+                {% for i in range(5) %}
+                <td>{{ row[i] }}</td>
                 {% endfor %}
+                <td><button>Click</button></td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </html>
