@@ -20,13 +20,13 @@
                 {% for i in range(6) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><button>Edit</button></td>
-                <td><button>Delete</button></td>
+                <td><form method="POST"><button>Edit</button></form></td>
+                <td><form method="POST"><button>Delete</button></form></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <form method="PUT" action='/update-inv'>
+    <form method="POST" action='/create-inv'>
         <input name="name" placeholder="Item Name"/>
         <input name="description" placeholder="Item Description"/>
         <input name="quantity" placeholder="Quantity"/>
@@ -50,11 +50,19 @@
                 {% for i in range(7) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><button>Edit</button></td>
+                <td><form method="POST"><button>Edit</button></form></td>
+                <td><form method="POST"><button>Delete</button></form></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <form method="POST" action='/create-shipment'>
+        <input name="desc" placeholder="Shipment Description"/>
+        <input name="carrier" placeholder="Carrier"/>
+        <input name="tracking" placeholder="Tracking Number"/>
+        <input name="is_exp" placeholder="Is Expedited? (0 or 1)"/>
+        <button type="submit">Create a Shipment</button>
+    </form>
     <table class="styled-table">
         <thead>
             <tr>
@@ -71,9 +79,16 @@
                 {% for i in range(5) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><button>Edit</button></td>
+                <td><form method="POST"><button>Edit</button></form></td>
+                <td><form method="POST"><button>Delete</button></form></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <form method="POST" action='/shipment-details'>
+        <input name="inv_id" placeholder="Inventory ID"/>
+        <input name="ship_id" placeholder="Shipment ID"/>
+        <input name="quantity" placeholder="Quantity"/>
+        <button type="submit">Add Shipment Details</button>
+    </form>
 </html>

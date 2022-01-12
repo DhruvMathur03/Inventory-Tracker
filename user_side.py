@@ -41,7 +41,20 @@ class User:
             'Inventory_ID':inv_id, 'Shipment_ID':ship_id, 'Quantity':quantity,
             'Created_At':today, 'Updated_At':None})
     
-
+    def update_inv(self, changes, conditions):
+        today = date.today()
+        changes = changes + "," + f'Updated_At = "{today}"'
+        db.modify("inventory", changes, conditions)
+    
+    def update_ship(self, changes, conditions):
+        today = date.today()
+        changes = changes + "," + f'Updated_At = "{today}"'
+        db.modify("shipments", changes, conditions)
+    
+    def update_details(self, changes, conditions):
+        today = date.today()
+        changes = changes + "," + f'Updated_At = "{today}"'
+        db.modify("shipment_details", changes, conditions)
     
 
 
