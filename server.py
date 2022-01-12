@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder='template')
 db = database.DB('inventory_tracker.db')
 user = user_side.User('inventory_tracker.db')
 
-@app.route('/home', methods=['POST', 'GET'])
+@app.route('/home', methods=['GET'])
 
 def home():
     inv_data = user.view_inventory()
@@ -15,12 +15,14 @@ def home():
     ship_details_data = user.view_shipment_details()
     return render_template('home.html', Inventory=inv_data, Shipment=ship_data, Shipment_Details=ship_details_data)
 
+@app.route('/update-inv', methods=['PUT'])
+
 def update_inventory():
     data = user.view_inventory()
     prev_ID = data[-1][0]
-    item_name = request.form['Item Name']
-    item_desc = request.form['Item Description']
-    quantity = request.form['Quantity']
+    item_name = request.form['name']
+    item_desc = request.form['description']
+    quantity = request.form['quantity']
     user.create_item(prev_ID+1, item_name, item_desc, quantity)
     
 

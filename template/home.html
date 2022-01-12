@@ -26,10 +26,10 @@
             {% endfor %}
         </tbody>
     </table>
-    <form method="POST">
-        <input name="Item Name" placeholder="Item Name"/>
-        <input name="Item Description" placeholder="Item Description"/>
-        <input name="Quantity" placeholder="Quantity"/>
+    <form method="PUT" action='/update-inv'>
+        <input name="name" placeholder="Item Name"/>
+        <input name="description" placeholder="Item Description"/>
+        <input name="quantity" placeholder="Quantity"/>
         <button type="submit">Create an Item</button>
     </form>
     <table class="styled-table">
@@ -71,7 +71,7 @@
                 {% for i in range(5) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><button>Click</button></td>
+                <td><button>Edit</button></td>
             </tr>
             {% endfor %}
         </tbody>
