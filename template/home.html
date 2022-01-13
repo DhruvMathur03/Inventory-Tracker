@@ -93,12 +93,12 @@
                 {% endfor %}
                 <td><form method="POST" action="/update-deet">
                     <input type="hidden" name="inv_id" value={{ row[0] }}>
-                    <input type="hidden" name="ship_id" value={{ row[1] }}/>
+                    <input type="hidden" name="ship_id" value={{ row[1] }}>
                     <button>Edit</button>
                 </form></td>
                 <td><form method="POST" action="/delete-deet">
-                    <input type="hidden" name="inv_id" value={{ row[0] }}/>
-                    <input type="hidden" name="ship_id" value={{ row[1] }}/>
+                    <input type="hidden" name="inv_id" value={{ row[0] }}>
+                    <input type="hidden" name="ship_id" value={{ row[1] }}>
                     <button>Delete</button>
                 </form></td>
             </tr>
