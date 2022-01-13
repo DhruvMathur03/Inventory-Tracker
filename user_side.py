@@ -43,17 +43,17 @@ class User:
     
     def update_inv(self, changes, conditions):
         today = date.today()
-        changes = changes + "," + f'Updated_At = "{today}"'
+        changes = changes + ", " + f'Updated_At = "{today}"'
         db.modify("inventory", changes, conditions)
     
     def update_ship(self, changes, conditions):
         today = date.today()
-        changes = changes + "," + f'Updated_At = "{today}"'
+        changes = changes + ", " + f'Updated_At = "{today}"'
         db.modify("shipments", changes, conditions)
     
     def update_details(self, changes, conditions):
         today = date.today()
-        changes = changes + "," + f'Updated_At = "{today}"'
+        changes = changes + ", " + f'Updated_At = "{today}"'
         db.modify("shipment_details", changes, conditions)
     
 

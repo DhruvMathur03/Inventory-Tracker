@@ -20,22 +20,25 @@
                 {% for i in range(6) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><form method="POST" action="/update-inv">
-                    <input type="hidden" name="id" value={{ row[0] }}>
-                    <button>Edit</button>
-                </form></td>
                 <td><form method="POST" action="/delete-inv">
                     <input type="hidden" name="id" value={{ row[0] }}>
                     <button>Delete</button>
+                </form></td>
+                <td><form method="POST" action="/update-inv">
+                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <input name="name" placeholder="Item Name"/>
+                    <input name="description" placeholder="Item Description"/>
+                    <input name="quantity" placeholder="Quantity"/>
+                    <button>Edit</button>
                 </form></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <form method="POST" action='/create-inv'>
-        <input name="name" placeholder="Item Name"/>
-        <input name="description" placeholder="Item Description"/>
-        <input name="quantity" placeholder="Quantity"/>
+        <input name="name" required placeholder="Item Name"/>
+        <input name="description" required placeholder="Item Description"/>
+        <input name="quantity" required placeholder="Quantity"/>
         <button type="submit">Create an Item</button>
     </form>
     <table class="styled-table">
@@ -56,23 +59,27 @@
                 {% for i in range(7) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><form method="POST" action="/update-ship">
-                    <input type="hidden" name="id" value={{ row[0] }}>
-                    <button>Edit</button>
-                </form></td>
                 <td><form method="POST" action="/delete-shipment">
                     <input type="hidden" name="id" value={{ row[0] }}>
                     <button>Delete</button>
+                </form></td>
+                <td><form method="POST" action="/update-ship">
+                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <input name="desc" placeholder="Shipment Description"/>
+                    <input name="carrier" placeholder="Carrier"/>
+                    <input name="tracking" placeholder="Tracking Number"/>
+                    <input name="is_exp" placeholder="Is Expedited? (0 or 1)"/>
+                    <button>Edit</button>
                 </form></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <form method="POST" action='/create-shipment'>
-        <input name="desc" placeholder="Shipment Description"/>
-        <input name="carrier" placeholder="Carrier"/>
-        <input name="tracking" placeholder="Tracking Number"/>
-        <input name="is_exp" placeholder="Is Expedited? (0 or 1)"/>
+        <input name="desc" required placeholder="Shipment Description"/>
+        <input name="carrier" required placeholder="Carrier"/>
+        <input name="tracking" required placeholder="Tracking Number"/>
+        <input name="is_exp" required placeholder="Is Expedited? (0 or 1)"/>
         <button type="submit">Create a Shipment</button>
     </form>
     <table class="styled-table">
@@ -91,24 +98,26 @@
                 {% for i in range(5) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><form method="POST" action="/update-deet">
-                    <input type="hidden" name="inv_id" value={{ row[0] }}>
-                    <input type="hidden" name="ship_id" value={{ row[1] }}>
-                    <button>Edit</button>
-                </form></td>
                 <td><form method="POST" action="/delete-deet">
                     <input type="hidden" name="inv_id" value={{ row[0] }}>
                     <input type="hidden" name="ship_id" value={{ row[1] }}>
                     <button>Delete</button>
+                </form></td>
+                <td><form method="POST" action="/update-deet">
+                    <input type="hidden" name="inv_id" value={{ row[0] }}>
+                    <input type="hidden" name="ship_id" value={{ row[1] }}>
+                    <input type="hidden" name="cur_q" value={{ row[2] }}>
+                    <input name="quantity" placeholder="Quantity"/>
+                    <button>Edit</button>
                 </form></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <form method="POST" action='/shipment-details'>
-        <input name="inv_id" placeholder="Inventory ID"/>
-        <input name="ship_id" placeholder="Shipment ID"/>
-        <input name="quantity" placeholder="Quantity"/>
+        <input name="inv_id" required placeholder="Inventory ID"/>
+        <input name="ship_id" required placeholder="Shipment ID"/>
+        <input name="quantity" required placeholder="Quantity"/>
         <button type="submit">Add Shipment Details</button>
     </form>
 </html>

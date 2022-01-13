@@ -54,7 +54,7 @@ def shipment_details():
     new_quantity = str(cur_quantity - int(quantity))
     user.shipment(inv_id, ship_id, quantity)
     user.update_inv(f'Quantity = {new_quantity}', f'ID = {inv_id}')
-    return new_quantity
+    return "succesfully added"
 
 @app.route('/delete-inv', methods=['POST'])
 def delete_inv():
@@ -64,8 +64,8 @@ def delete_inv():
 
 @app.route('/delete-shipment', methods=['POST'])
 def delete_ship():
-    ID = request.form['ID']
-    db.delete('shipment', f'ID={ID}')
+    ID = request.form['id']
+    db.delete('shipments', f'ID={ID}')
     return "succesfully deleted"
 
 @app.route('/delete-deet', methods=['POST'])
@@ -74,6 +74,55 @@ def delete_deet():
     ship_id = request.form['ship_id']
     db.delete('shipment_details', f'Inventory_ID = {inv_id} AND Shipment_ID = {ship_id}')
     return "succesfully deleted"
+
+@app.route('/update-inv', methods=['POST'])
+def update_inv():
+    cur_id = request.form['id']
+    data = request.form
+    if data['name'] != '':
+        name = data['name']
+        user.update_inv(f'Item_Name="{name}"', f'ID={cur_id}')
+    if data['description'] != '':
+        desc = data['description']
+        user.update_inv(f'Item_Description="{desc}"', f'ID={cur_id}')
+    if data['quantity'] != '':
+        quantity = data['quantity']
+        user.update_inv(f'Quantity="{quantity}"', f'ID={cur_id}')
+    return "succesfully updated"
+
+@app.route('/update-ship', methods=['POST'])
+def update_ship():
+    cur_id = request.form['id']
+    data = request.form
+    if data['desc'] != '':
+        desc = data['desc']
+        user.update_ship(f'Shipment_Description="{desc}"', f'ID={cur_id}')
+    if data['carrier'] != '':
+        carrier = data['carrier']
+        user.update_ship(f'Carrier="{carrier}"', f'ID={cur_id}')
+    if data['tracking'] != '':
+        tracking = data['tracking']
+        user.update_ship(f'Tracking_Number="{tracking}"', f'ID={cur_id}')
+    if data['is_exp'] != '':
+        is_exp = data['is_exp']
+        user.update_ship(f'Is_Expedited="{is_exp}"', f'ID={cur_id}')
+    return "succesfully updated"
+    
+@app.route('/update-deet', methods=['POST'])
+def update_deet():
+    inv_data = user.view_inventory()
+    inv_id = request.form['inv_id']
+    ship_id = request.form['ship_id']
+    cur_quantity = request.form['cur_q']
+    data = request.form
+    item_cur_quantity = inv_data[int(inv_id)-1][3]
+    if data['quantity'] != '':
+        new_quantity = data['quantity']
+        diff_quantity = int(cur_quantity) - int(new_quantity) 
+        user.update_details(f'Quantity="{new_quantity}"', f'Inventory_ID={inv_id} AND Shipment_ID={ship_id}')
+        item_new_quantity = item_cur_quantity + diff_quantity
+        user.update_inv(f'Quantity="{item_new_quantity}"', f'ID={inv_id}')
+    return "succesfully updated"
 
 if __name__ == "__main__":
     app.run(debug=True)
