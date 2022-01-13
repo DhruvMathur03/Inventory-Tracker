@@ -10,29 +10,38 @@ user = user_side.User('inventory_tracker.db')
 @app.route('/home', methods=['GET'])
 def home():
     inv_data = user.view_inventory()
+    inv_ids = map(lambda row: row[0], inv_data)
     ship_data = user.view_shipments()
     ship_details_data = user.view_shipment_details()
-    return render_template('home.html', Inventory=inv_data, Shipment=ship_data, Shipment_Details=ship_details_data)
+    return render_template('home.html', Inventory=inv_data, Shipment=ship_data, Shipment_Details=ship_details_data, IDs=list(inv_ids))
 
 @app.route('/create-inv', methods=['POST'])
 def create_inventory():
     data = user.view_inventory()
-    prev_ID = data[-1][0]
+    if data == []:
+        new_id = 1
+    else:
+        prev_ID = data[-1][0]
+        new_id = prev_ID + 1
     item_name = request.form['name']
     item_desc = request.form['description']
     quantity = request.form['quantity']
-    user.create_item(prev_ID+1, item_name, item_desc, quantity)
+    user.create_item(new_id, item_name, item_desc, quantity)
     return "succesfully created"
 
 @app.route('/create-shipment', methods=['POST'])
 def create_shipment():
     data = user.view_shipments()
-    prev_ID = data[-1][0]
+    if data == []:
+        new_id = 1
+    else:
+        prev_ID = data[-1][0]
+        new_id = prev_ID + 1
     shipment_desc = request.form['desc']
     carrier = request.form['carrier']
     tracking_num = request.form['tracking']
     is_exp = request.form['is_exp']
-    user.create_shipment(prev_ID+1, shipment_desc, carrier, tracking_num, is_exp)
+    user.create_shipment(new_id, shipment_desc, carrier, tracking_num, is_exp)
     return "succesfully created"
 
 @app.route('/shipment-details', methods=['POST'])
@@ -49,7 +58,7 @@ def shipment_details():
 
 @app.route('/delete-inv', methods=['POST'])
 def delete_inv():
-    ID = request.form['ID']
+    ID = request.form['id']
     db.delete('inventory', f'ID={ID}')
     return "succesfully deleted"
 
@@ -59,9 +68,12 @@ def delete_ship():
     db.delete('shipment', f'ID={ID}')
     return "succesfully deleted"
 
-
-    
-
+@app.route('/delete-deet', methods=['POST'])
+def delete_deet():
+    inv_id = request.form['inv_id']
+    ship_id = request.form['ship_id']
+    db.delete('shipment_details', f'Inventory_ID = {inv_id} AND Shipment_ID = {ship_id}')
+    return "succesfully deleted"
 
 if __name__ == "__main__":
     app.run(debug=True)

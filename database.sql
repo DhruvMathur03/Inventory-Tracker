@@ -23,6 +23,5 @@ CREATE TABLE shipment_details (
     Shipment_ID INT,
     Quantity INT,  
     Created_At DATE,
-    Updated_At DATE,
-    PRIMARY KEY (Inventory_ID, Shipment_ID));
+    Updated_At DATE);
 

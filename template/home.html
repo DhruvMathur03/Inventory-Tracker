@@ -20,8 +20,14 @@
                 {% for i in range(6) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><form method="POST"><button>Edit</button></form></td>
-                <td><form method="POST"><button>Delete</button></form></td>
+                <td><form method="POST" action="/update-inv">
+                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <button>Edit</button>
+                </form></td>
+                <td><form method="POST" action="/delete-inv">
+                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <button>Delete</button>
+                </form></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -50,8 +56,14 @@
                 {% for i in range(7) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><form method="POST"><button>Edit</button></form></td>
-                <td><form method="POST"><button>Delete</button></form></td>
+                <td><form method="POST" action="/update-ship">
+                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <button>Edit</button>
+                </form></td>
+                <td><form method="POST" action="/delete-shipment">
+                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <button>Delete</button>
+                </form></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -79,8 +91,16 @@
                 {% for i in range(5) %}
                 <td>{{ row[i] }}</td>
                 {% endfor %}
-                <td><form method="POST"><button>Edit</button></form></td>
-                <td><form method="POST"><button>Delete</button></form></td>
+                <td><form method="POST" action="/update-deet">
+                    <input type="hidden" name="inv_id" value={{ row[0] }}>
+                    <input type="hidden" name="ship_id" value={{ row[1] }}/>
+                    <button>Edit</button>
+                </form></td>
+                <td><form method="POST" action="/delete-deet">
+                    <input type="hidden" name="inv_id" value={{ row[0] }}/>
+                    <input type="hidden" name="ship_id" value={{ row[1] }}/>
+                    <button>Delete</button>
+                </form></td>
             </tr>
             {% endfor %}
         </tbody>
