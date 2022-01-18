@@ -17,15 +17,18 @@
         <tbody>
             {% for row in Inventory %}
             <tr>
-                {% for i in range(6) %}
-                <td>{{ row[i] }}</td>
-                {% endfor %}
+                <td>{{ row.ID }}</td>
+                <td>{{ row.Item_Name }}</td>
+                <td>{{ row.Item_Description }}</td>
+                <td>{{ row.Quantity }}</td>
+                <td>{{ row.Created_At }}</td>
+                <td>{{ row.Updated_At }}</td>
                 <td><form method="POST" action="/delete-inv">
-                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <input type="hidden" name="id" value={{ row.ID }}>
                     <button>Delete</button>
                 </form></td>
                 <td><form method="POST" action="/update-inv">
-                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <input type="hidden" name="id" value={{ row.ID }}>
                     <input name="name" placeholder="Item Name"/>
                     <input name="description" placeholder="Item Description"/>
                     <input name="quantity" placeholder="Quantity"/>
@@ -56,15 +59,19 @@
         <tbody>
             {% for row in Shipment %}
             <tr>
-                {% for i in range(7) %}
-                <td>{{ row[i] }}</td>
-                {% endfor %}
+                <td>{{ row.ID }}</td>
+                <td>{{ row.Shipment_Description }}</td>
+                <td>{{ row.Carrier }}</td>
+                <td>{{ row.Tracking_Number }}</td>
+                <td>{{ row.Is_Expedited }}</td>
+                <td>{{ row.Created_At }}</td>
+                <td>{{ row.Updated_At }}</td>
                 <td><form method="POST" action="/delete-shipment">
-                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <input type="hidden" name="id" value={{ row.ID }}>
                     <button>Delete</button>
                 </form></td>
                 <td><form method="POST" action="/update-ship">
-                    <input type="hidden" name="id" value={{ row[0] }}>
+                    <input type="hidden" name="id" value={{ row.ID }}>
                     <input name="desc" placeholder="Shipment Description"/>
                     <input name="carrier" placeholder="Carrier"/>
                     <input name="tracking" placeholder="Tracking Number"/>
@@ -95,18 +102,20 @@
         <tbody>
             {% for row in Shipment_Details %}
             <tr>
-                {% for i in range(5) %}
-                <td>{{ row[i] }}</td>
-                {% endfor %}
+                <td>{{ row.Inventory_ID }}</td>
+                <td>{{ row.Shipment_ID }}</td>
+                <td>{{ row.Quantity }}</td>
+                <td>{{ row.Created_At }}</td>
+                <td>{{ row.Updated_At }}</td>
                 <td><form method="POST" action="/delete-deet">
-                    <input type="hidden" name="inv_id" value={{ row[0] }}>
-                    <input type="hidden" name="ship_id" value={{ row[1] }}>
+                    <input type="hidden" name="inv_id" value={{ row.Inventory_ID }}>
+                    <input type="hidden" name="ship_id" value={{ row.Shipment_ID }}>
                     <button>Delete</button>
                 </form></td>
                 <td><form method="POST" action="/update-deet">
-                    <input type="hidden" name="inv_id" value={{ row[0] }}>
-                    <input type="hidden" name="ship_id" value={{ row[1] }}>
-                    <input type="hidden" name="cur_q" value={{ row[2] }}>
+                    <input type="hidden" name="inv_id" value={{ row.Inventory_ID }}>
+                    <input type="hidden" name="ship_id" value={{ row.Shipment_ID }}>
+                    <input type="hidden" name="cur_q" value={{ row.Quantity }}>
                     <input name="quantity" placeholder="Quantity"/>
                     <button>Edit</button>
                 </form></td>
