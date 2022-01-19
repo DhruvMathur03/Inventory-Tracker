@@ -43,7 +43,7 @@ class FlaskTestInventory(Test):
         with self.assertRaises(Exception):
             main_database.db.session.commit()
 
-    # Updates existing item, and checks if the database updated the item in 
+    # Updates existing item, and checks if the database updated the item  
     def test_update(self):
         main_database.Inventory.update(1, 'Item_Name', 'Test Update Successful')
         response = main_database.Inventory.query.get(1)
@@ -72,41 +72,46 @@ class FlaskTestShipment(Test):
     # Tests for Shipment Table
     # Creates a shipment in the shipments table and checks if its been added to the table
     def test_create(self):
-        item = main_database.Inventory(Item_Name='Test1', Item_Description='Description', Quantity=43)
+        item = main_database.Shipments(Shipment_Description='Test', Carrier='CanadaPost', Tracking_Number='UWFYE12314', Is_Expedited=True)
         main_database.db.session.add(item)
         main_database.db.session.commit()
-        response = main_database.Inventory.query.all()
+        response = main_database.Shipments.query.all()
         self.assertGreaterEqual(len(response), 2)
 
-    # Creates new item with non-unique ID, and checks if exception is raised
+    # Creates new shipment with non-unique ID, and checks if exception is raised
     def test_same_id(self):
-        item = main_database.Inventory(ID=1, Item_Name='ID Test', Item_Description='Desc', Quantity=231)
+        item = main_database.Shipments(ID=1, Shipment_Description='New', Carrier='UPS', Tracking_Number='273FGDW1', Is_Expedited=True)
         main_database.db.session.add(item)
         with self.assertRaises(Exception):
             main_database.db.session.commit()
 
-    # Updates existing item, and checks if the database updated the item in 
+    # Updates existing shipment, and checks if the database updated the shipment
     def test_update(self):
-        main_database.Inventory.update(1, 'Item_Name', 'Test Update Successful')
-        response = main_database.Inventory.query.get(1)
-        self.assertEqual(response.Item_Name, 'Test Update Successful')
-        
-    # Updates item that isn't present in the table and checks if exception is raised    
-    def test_absent_item_update(self):
-        with self.assertRaises(Exception):
-            main_database.Inventory.update(4, 'Item_Name', 'Test Update')
-        
-    # Deletes existing item from table, and checks if change has taken place in the database
-    def test_delete(self):
-        main_database.Inventory.query.filter_by(ID=1).delete()
+        item = main_database.Shipments.query.get(1)
+        setattr(item, 'Shipment_Description', 'Desc Update Successful')
+        main_database.db.session.add(item)
         main_database.db.session.commit()
-        resp = main_database.Inventory.query.all()
+        self.assertEqual(item.Shipment_Description, 'Desc Update Successful')
+        
+    # Updates shipment that isn't present in the table and checks if exception is raised    
+    def test_absent_item_update(self):
+        item = main_database.Shipments.query.get(4)
+        with self.assertRaises(Exception):
+            setattr(item, 'Shipment_Description', 'Desc Update Successful')
+            main_database.db.session.add(item)
+            main_database.db.session.commit()
+        
+    # Deletes existing shipment from table, and checks if change has taken place in the database
+    def test_delete(self):
+        main_database.Shipments.query.filter_by(ID=1).delete()
+        main_database.db.session.commit()
+        resp = main_database.Shipments.query.all()
         self.assertEqual(len(resp), 0)
         
     # Deletes an item that isn't present in the table and checks if exception is raised    
     def test_absent_item_delete(self):
         with self.assertRaises(Exception):
-            main_database.Inventory.query.get(103).delete()
+            main_database.Shipments.query.get(103).delete()
             main_database.db.session.commit()
 
 

@@ -10,6 +10,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Quantity</th>
+                <th>State</th>
                 <th>Created At</th>
                 <th>Updated At</th>
             </tr>
@@ -21,6 +22,7 @@
                 <td>{{ row.Item_Name }}</td>
                 <td>{{ row.Item_Description }}</td>
                 <td>{{ row.Quantity }}</td>
+                <td>{{ row.State }}</td>
                 <td>{{ row.Created_At }}</td>
                 <td>{{ row.Updated_At }}</td>
                 <td><form method="POST" action="/delete-inv">
@@ -94,6 +96,7 @@
             <tr>
                 <th>Inventory ID</th>
                 <th>Shipment ID</th>
+                <th>Item Name</th>
                 <th>Quantity</th>
                 <th>Created At</th>
                 <th>Updated At</th>
@@ -104,6 +107,7 @@
             <tr>
                 <td>{{ row.Inventory_ID }}</td>
                 <td>{{ row.Shipment_ID }}</td>
+                <td>{{ row.item_details.Item_Name }}</td>
                 <td>{{ row.Quantity }}</td>
                 <td>{{ row.Created_At }}</td>
                 <td>{{ row.Updated_At }}</td>

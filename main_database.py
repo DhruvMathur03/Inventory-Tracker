@@ -12,12 +12,13 @@ class Inventory(db.Model):
     Item_Name = db.Column(db.String(256))
     Item_Description = db.Column(db.String(256))
     Quantity = db.Column(db.Integer)
+    State = db.Column(db.String, default='In Stock')
     Created_At = db.Column(db.DateTime, default=date.today)
     Updated_At = db.Column(db.DateTime, default=None)
-    ship_details = db.relationship('Shipment_Details', backref='inv_id', lazy=True)
+    ship_details = db.relationship('Shipment_Details', backref='inv_id', lazy=True, overlaps="inv_id,ship_details")
 
     def __repr__(self):
-        return f'{self.ID}, {self.Item_Name}, {self.Item_Description}, {self.Quantity}, {self.Created_At}, {self.Updated_At}'
+        return f'{self.ID}, {self.Item_Name}, {self.Item_Description}, {self.Quantity}, {self.State}, {self.Created_At}, {self.Updated_At}'
 
     def update(id, column, value):
         item_to_update = Inventory.query.get(id)
@@ -32,7 +33,7 @@ class Shipments(db.Model):
     Is_Expedited = db.Column(db.Boolean)
     Created_At = db.Column(db.DateTime, default=date.today)
     Updated_At = db.Column(db.DateTime, default=None)
-    ship_details = db.relationship('Shipment_Details', backref='ship_id', lazy=True)
+    ship_details = db.relationship('Shipment_Details', backref='ship_id', lazy=True, overlaps="ship_details,ship_id")
 
     def __repr__(self):
         return f'{self.ID}, {self.Shipment_Description}, {self.Carrier}, {self.Tracking_Number}, {self.Created_At}, {self.Updated_At}'
@@ -43,6 +44,8 @@ class Shipment_Details(db.Model):
     Quantity = db.Column(db.Integer)
     Created_At = db.Column(db.DateTime, default=date.today)
     Updated_At = db.Column(db.DateTime, default=None)
+    item_details = db.relationship('Inventory', backref='Inventory_ID', lazy=True, overlaps="inv_id,ship_details")
+    ship_details = db.relationship('Shipments', backref='Shipment_ID', lazy=True, overlaps="ship_details,ship_id")
     __table_args__ = (
         db.PrimaryKeyConstraint(Inventory_ID, Shipment_ID),
         {}, 

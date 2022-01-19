@@ -1,6 +1,9 @@
+from ast import In
 from datetime import date
 from operator import and_, inv
 from tty import setraw
+from unittest.main import main
+from webbrowser import MacOSX
 from flask import render_template, request
 import main_database
 
@@ -36,15 +39,17 @@ def create_shipment():
 
 @app.route('/shipment-details', methods=['POST'])
 def shipment_details():
-    inv_data = main_database.Inventory.query.all()
     inv_id = request.form['inv_id']
     ship_id = request.form['ship_id']
     quantity = request.form['quantity']
+    inv_data = main_database.Inventory.query.get(inv_id)
     if main_database.Inventory.query.get(inv_id) == None or main_database.Shipments.query.get(ship_id) == None:
         return "Item or Shipment doesn't exist"
+    elif main_database.Inventory.query.get(inv_id).Quantity == 0 or main_database.Inventory.query.get(inv_id).State == 'Deleted':
+        return "Item is out of stock"
     else:
-        cur_quantity = inv_data[int(inv_id) - 1].Quantity
-        new_quantity = str(int(cur_quantity) - int(quantity))
+        cur_quantity = inv_data.Quantity
+        new_quantity = str(cur_quantity - int(quantity))
         detail = main_database.Shipment_Details(Inventory_ID=inv_id, Shipment_ID=ship_id, Quantity=quantity)
         main_database.db.session.add(detail)
         main_database.Inventory.update(inv_id, 'Quantity', new_quantity)
@@ -53,8 +58,7 @@ def shipment_details():
 @app.route('/delete-inv', methods=['POST'])
 def delete_inv():
     ID = request.form['id']
-    main_database.Inventory.query.filter_by(ID=f'{ID}').delete()
-    main_database.db.session.commit()
+    main_database.Inventory.update(ID, 'State', 'Deleted')
     return "succesfully deleted"
 
 @app.route('/delete-shipment', methods=['POST'])
@@ -68,13 +72,17 @@ def delete_ship():
 def delete_deet():
     inv_id = request.form['inv_id']
     ship_id = request.form['ship_id']
-    main_database.Shipment_Details.query.filter_by(Inventory_ID=f'{inv_id}').filter_by(Shipment_ID=f'{ship_id}').delete()
+    cur_quantity = main_database.Inventory.query.get(inv_id).Quantity
+    shipment = main_database.Shipment_Details.query.filter_by(Inventory_ID=f'{inv_id}').filter_by(Shipment_ID=f'{ship_id}')
+    main_database.Inventory.update(inv_id, 'Quantity', cur_quantity+shipment.Quantity)
+    main_database.db.session.delete(shipment)
     main_database.db.session.commit()
     return "succesfully deleted"
 
 @app.route('/update-inv', methods=['POST'])
 def update_inv():
     cur_id = request.form['id']
+    row = main_database.Inventory.query.get(cur_id)
     data = request.form
     if data['name'] != '':
         name = data['name']
@@ -85,6 +93,10 @@ def update_inv():
     if data['quantity'] != '':
         quantity = data['quantity']
         main_database.Inventory.update(cur_id, 'Quantity', quantity)
+        if quantity == "0":
+            main_database.Inventory.update(cur_id, 'State', 'Out of Stock')
+        if row.State == 'Out of Stock' and int(quantity) > 0:
+            main_database.Inventory.update(cur_id, 'State', 'In Stock')
     main_database.Inventory.update(cur_id, 'Updated_At', date.today())
     return "succesfully updated"
 
@@ -115,12 +127,12 @@ def update_ship():
     
 @app.route('/update-deet', methods=['POST'])
 def update_deet():
-    inv_data = main_database.Inventory.query.all()
     inv_id = request.form['inv_id']
     ship_id = request.form['ship_id']
     cur_quantity = request.form['cur_q']
+    inv_data = main_database.Inventory.query.get(inv_id)
     data = request.form
-    item_cur_quantity = inv_data[int(inv_id)-1].Quantity
+    item_cur_quantity = inv_data.Quantity
     if data['quantity'] != '':
         new_quantity = data['quantity']
         diff_quantity = int(cur_quantity) - int(new_quantity) 
