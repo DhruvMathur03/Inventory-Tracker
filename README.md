@@ -54,7 +54,6 @@ Installing Python on Windows :
 - Verify installation by navigating to the directory in which Python was installed, and then double clicking 'python.exe'
 - OR you could go to command prompt, navigate to said directory, and entering 'python3'
 
-- 
 
 Install with pip3 in the virtual environment:
 
