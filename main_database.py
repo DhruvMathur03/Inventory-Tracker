@@ -29,7 +29,7 @@ class Shipments(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
     Shipment_Description = db.Column(db.String(256))
     Carrier = db.Column(db.String(256))
-    Tracking_Number = db.Column(db.String(256), unique=True)
+    Tracking_Number = db.Column(db.String(256))
     Is_Expedited = db.Column(db.Boolean)
     Created_At = db.Column(db.DateTime, default=date.today)
     Updated_At = db.Column(db.DateTime, default=None)

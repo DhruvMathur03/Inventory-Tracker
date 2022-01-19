@@ -21,6 +21,8 @@ def create_inventory():
     item_name = request.form['name']
     item_desc = request.form['description']
     quantity = request.form['quantity']
+    if quantity == '0':
+        item = main_database.Inventory(Item_Name=item_name, Item_Description=item_desc, Quantity=quantity, State='Out of Stock')
     item = main_database.Inventory(Item_Name=item_name, Item_Description=item_desc, Quantity=quantity)
     main_database.db.session.add(item)
     main_database.db.session.commit()
