@@ -1,4 +1,4 @@
-# Shopify Challenge Summer 2022
+# Inventory Tracker
 
 ## Added Feature
 
